@@ -134,3 +134,19 @@ DC Motor Params
 0.01
 0.3
 
+DC Motor Params
+10.0
+1
+1
+1
+1
+1
+
+DC Motor Params
+10.4
+0.1
+1
+0.11
+0.01
+0.33
+

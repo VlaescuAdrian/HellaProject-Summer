@@ -1051,7 +1051,7 @@ def manualCompare(comparison):
     Voltage_text_manual = Label(comparison_manual, text="Enter voltage(V):",bg='#CCFFE5',fg="black")
     Voltage_text_manual.pack()
 
-    Voltage_input_manual = Scale(comparison_manual, from_=0, to=20,orient=HORIZONTAL,fg="white", bg="#137ab1",bd=10,resolution=-1,relief=RIDGE,highlightthickness=0,troughcolor = 'blue')
+    Voltage_input_manual = Scale(comparison_manual, from_=0, to=20,orient=HORIZONTAL,fg="white", bg="#137ab1",bd=10,resolution=-1,relief=RIDGE,highlightthickness=0,troughcolor = '#CCFFE5')
     Voltage_input_manual.pack()
 
 
