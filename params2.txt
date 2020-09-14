@@ -1,0 +1,136 @@
+DC Motor Params
+10.0
+0.1
+1
+0.1
+0.01
+0.3
+
+DC Motor Params
+9.6
+0.1
+1
+0.1
+0.01
+0.3
+
+DC Motor Params
+13.6
+1
+1
+1
+1
+1
+
+DC Motor Params
+20.0
+6
+6
+6
+6
+6
+
+DC Motor Params
+12.0
+0.1
+1
+0.1
+0.01
+0.3
+
+DC Motor Params
+10.0
+0.1
+1
+0.1
+0.01
+0.6
+
+DC Motor Params
+10.4
+0.1
+1
+0.1
+0.01
+0.3
+
+DC Motor Params
+11.2
+1
+1
+1
+1
+1
+
+DC Motor Params
+0.8
+0.1
+1
+0.1
+0.01
+0.3
+
+DC Motor Params
+13.6
+1
+1
+1
+1
+100
+
+DC Motor Params
+15.6
+1
+1
+1
+1
+1000
+
+DC Motor Params
+10.4
+1
+1
+1
+1
+1
+
+DC Motor Params
+20.0
+100
+10
+1
+1
+1
+
+DC Motor Params
+13.2
+1
+1
+1
+1
+1
+
+DC Motor Params
+8.0
+4
+5
+5
+5
+5
+
+DC Motor Params
+14.8
+1
+1
+1
+1
+1
+
+DC Motor Params
+0.4
+0.1
+1
+0.1
+0.01
+0.3
+
