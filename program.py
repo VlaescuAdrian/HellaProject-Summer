@@ -12,8 +12,9 @@ import pyrr
 from TextureLoader import load_texture
 from ObjLoader import ObjLoader
 from camera import Camera
-from ClassParams import Struct
 from tkinter import filedialog
+from ClassParams import Struct
+
 
 
 
@@ -43,9 +44,9 @@ curr_index = 0
 
 current_time = 0
 
-i_vector = [0] * 10000
-w_vector = [0] * 10000
-error = Label(root, text="Not all fields were completed or some fields do not represent numbers!",bg='#CCFFE5',fg='black')
+i_vector = [0] * 9999999
+w_vector = [0] * 9999999
+error = Label(root, text="Not all fields were completed or some fields do not \nrepresent numbers/valid numbers!",bg='#CCFFE5',fg='black')
 error_voltage = Label(root, text="Voltage must be set!",bg='#CCFFE5',fg='black')
 
 
@@ -731,6 +732,13 @@ def RepresentsInt(s):
     except ValueError:
         return False
 
+def RepresentsInt_2(s):
+    try: 
+        int(s)
+        return True
+    except ValueError:
+        return False
+
 def save_file(history):
 
     root.filename =  filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("all files","*.*"),("jpeg files","*.jpg")))
@@ -762,7 +770,7 @@ def save_file(history):
     except IOError:
         no_file = Label(history, text="File has to be created",bg='#CCFFE5',fg='black')
         no_file.pack()
-        history.after(1000,no_file.pack_forget)
+        history.after(2000,no_file.pack_forget)
     nothing_written = 0
     for i in range(0,len(structs)):
         if free_write[i] == 0:
@@ -782,11 +790,11 @@ def save_file(history):
     if nothing_written == 1:
         saveLabel = Label(history, text="Params have been saved",bg='#CCFFE5',fg='black')
         saveLabel.pack()
-        history.after(1000,saveLabel.pack_forget)
+        history.after(2000,saveLabel.pack_forget)
     else:
         not_saveLabel = Label(history, text="Nothing to be saved",bg='#CCFFE5',fg='black')
         not_saveLabel.pack()
-        history.after(1000,not_saveLabel.pack_forget)
+        history.after(2000,not_saveLabel.pack_forget)
 
     return
 
@@ -823,11 +831,11 @@ def SaveParams(Options):
     except IOError:
         create_file = Label(Options, text="File is created",bg='#CCFFE5',fg='black')
         create_file.grid(pady=10)
-        Options.after(1000,create_file.grid_forget)
+        Options.after(2000,create_file.grid_forget)
     
     if free_to_write == 0:
         saveLabel.grid(pady=10)
-        Options.after(1000,saveLabel.grid_forget)
+        Options.after(2000,saveLabel.grid_forget)
         f = open(filename, "a+")
         
         f.write("DC Motor Params\n")
@@ -842,7 +850,7 @@ def SaveParams(Options):
         f.close()
     else:
         already_saved.grid(pady=10)
-        Options.after(1000,already_saved.grid_forget)
+        Options.after(2000,already_saved.grid_forget)
     
     return
 
@@ -886,7 +894,7 @@ def load_file(history):
     except IOError:
         no_file_to_read_from = Label(history, text="No such file or directory",bg='#CCFFE5',fg='black')
         no_file_to_read_from.pack()
-        history.after(1000,no_file_to_read_from.pack_forget)
+        history.after(2000,no_file_to_read_from.pack_forget)
 
     return
 
@@ -894,15 +902,15 @@ def compare(comparison,no_config_compare):
     if (len(structs) == 0):
         hs_clear = Label(comparison, text="History is clear!",bg='#CCFFE5',fg='black')
         hs_clear.pack()
-        comparison.after(1000,hs_clear.pack_forget)
-    elif (len(no_config_compare.get())==0 or RepresentsInt(no_config_compare.get())== False):
+        comparison.after(2000,hs_clear.pack_forget)
+    elif (len(no_config_compare.get())==0 or RepresentsInt_2(no_config_compare.get())== False or float(no_config_compare.get()) < 0):
         errno_valid_number = Label(comparison, text="Introduce a valid number!",bg='#CCFFE5',fg='black')
         errno_valid_number.pack()
-        comparison.after(1000,errno_valid_number.pack_forget)
-    elif (len(structs) <= int(no_config_compare.get())):
+        comparison.after(2000,errno_valid_number.pack_forget)
+    elif (len(structs) <= float(no_config_compare.get())):
         errno = Label(comparison, text="Introduce a valid number!",bg='#CCFFE5',fg='black')
         errno.pack()
-        comparison.after(1000,errno.pack_forget)
+        comparison.after(2000,errno.pack_forget)
     else:
         index = int(no_config_compare.get())
         options_compare = tk.Toplevel(comparison)
@@ -954,21 +962,21 @@ def compare_manual(comparison_manual,Voltage_input_manual,
     global induc_manual
     global damping_manual
     global ct_manual
-    error_manual = Label(comparison_manual, text="Not all fields were completed or some fields do not represent numbers!",bg='#CCFFE5',fg='black')
+    error_manual = Label(comparison_manual, text="Not all fields were completed or some fields do not \nrepresent numbers/valid numbers!",bg='#CCFFE5',fg='black')
     error_voltage_manual = Label(comparison_manual, text="Voltage must be set!",bg='#CCFFE5',fg='black')
-    if ((len(MOI_input_manual.get())==0 or RepresentsInt(MOI_input_manual.get())== False) or
-            (len(armature_resistance_input_manual.get())==0 or RepresentsInt(armature_resistance_input_manual.get())== False) or
-            (len(armature_unductance_input_manual.get())==0 or RepresentsInt(armature_unductance_input_manual.get())== False) or
-            (len(damping_input_manual.get())==0 or RepresentsInt(damping_input_manual.get())== False) or
-            (len(constant_input_manual.get())==0) or RepresentsInt(constant_input_manual.get())== False): 
+    if ((len(MOI_input_manual.get())==0 or RepresentsInt(MOI_input_manual.get())== False or float(MOI_input_manual.get()) <= 0) or
+            (len(armature_resistance_input_manual.get())==0 or RepresentsInt(armature_resistance_input_manual.get())== False or float(armature_resistance_input_manual.get()) <= 0) or
+            (len(armature_unductance_input_manual.get())==0 or RepresentsInt(armature_unductance_input_manual.get())== False or float(armature_unductance_input_manual.get()) <= 0) or
+            (len(damping_input_manual.get())==0 or RepresentsInt(damping_input_manual.get())== False or float(damping_input_manual.get()) <= 0) or
+            (len(constant_input_manual.get())==0) or RepresentsInt(constant_input_manual.get())== False or float(constant_input_manual.get()) <= 0): 
         error_manual.pack()
-        comparison_manual.after(1000,error_manual.pack_forget)
+        comparison_manual.after(2000,error_manual.pack_forget)
         if (Voltage_input_manual.get() == 0):
             error_voltage_manual.pack()
-            comparison_manual.after(1000,error_voltage_manual.pack_forget)
+            comparison_manual.after(2000,error_voltage_manual.pack_forget)
     elif (Voltage_input_manual.get() == 0):
         error_voltage_manual.pack()
-        comparison_manual.after(1000,error_voltage_manual.pack_forget)
+        comparison_manual.after(2000,error_voltage_manual.pack_forget)
     else:
         Options_manual = tk.Toplevel(comparison_manual)
         Options_manual.title('Options manual compare')
@@ -1101,20 +1109,20 @@ def manualCompare(comparison):
 
     return
 def compareTo(root):
-    if ((len(N_input.get())==0 or RepresentsInt(N_input.get())== False) or
-            (len(MOI_input.get())==0 or RepresentsInt(MOI_input.get())== False) or
-            (len(armature_resistance_input.get())==0 or RepresentsInt(armature_resistance_input.get())== False) or
-            (len(armature_unductance_input.get())==0 or RepresentsInt(armature_unductance_input.get())== False) or
-            (len(damping_input.get())==0 or RepresentsInt(damping_input.get())== False) or
-            (len(constant_input.get())==0) or RepresentsInt(constant_input.get())== False):
+    if ((len(N_input.get())==0 or RepresentsInt(N_input.get())== False or float(N_input.get()) <= 0 or float(N_input.get()) > 100) or
+            (len(MOI_input.get())==0 or RepresentsInt(MOI_input.get())== False or float(MOI_input.get()) <= 0) or
+            (len(armature_resistance_input.get())==0 or RepresentsInt(armature_resistance_input.get())== False  or float(armature_resistance_input.get()) <= 0) or
+            (len(armature_unductance_input.get())==0 or RepresentsInt(armature_unductance_input.get())== False or float(armature_unductance_input.get()) <= 0) or
+            (len(damping_input.get())==0 or RepresentsInt(damping_input.get())== False or float(damping_input.get()) <= 0) or
+            (len(constant_input.get())==0) or RepresentsInt(constant_input.get())== False or float(constant_input.get()) <= 0):
         error.pack()
-        root.after(1000,error.pack_forget)
+        root.after(2000,error.pack_forget)
         if (Voltage_input.get() == 0):
             error_voltage.pack()
-            root.after(1000,error_voltage.pack_forget)
+            root.after(2000,error_voltage.pack_forget)
     elif (Voltage_input.get() == 0):
         error_voltage.pack()
-        root.after(1000,error_voltage.pack_forget)
+        root.after(2000,error_voltage.pack_forget)
     else:
         comparison = tk.Toplevel(root)
         comparison.title('Compare')
@@ -1161,20 +1169,21 @@ def compareTo(root):
 
 def compare_two(history,first_compare,second_compare):
     valid_entry = 0
-    if (len(N_input.get())==0 or RepresentsInt(N_input.get())== False):
-        error_no_seconds_set = Label(history, text="No time has been set!",bg='#CCFFE5',fg='black')
+    if (len(N_input.get())==0 or RepresentsInt(N_input.get())== False or float(N_input.get()) <= 0):
+        error_no_seconds_set = Label(history, text="No time/valid time has been set!",bg='#CCFFE5',fg='black')
         error_no_seconds_set.pack()
-        history.after(1000,error_no_seconds_set.pack_forget)
+        history.after(2000,error_no_seconds_set.pack_forget)
         valid_entry = 1
-    if (len(first_compare.get())==0 or RepresentsInt(first_compare.get())== False or len(second_compare.get())==0 or RepresentsInt(second_compare.get()) == False):
+    if (len(first_compare.get())==0  or len(second_compare.get())==0 ):
         complete_fields = Label(history, text="Complete suggested fields(*)!",bg='#CCFFE5',fg='black')
         complete_fields.pack()
-        history.after(1000,complete_fields.pack_forget)
+        history.after(2000,complete_fields.pack_forget)
         valid_entry = 1
-    elif (len(structs) <= int(first_compare.get()) or len(structs) <= int(second_compare.get())):
+    elif (len(structs) <= float(first_compare.get()) or len(structs) <= float(second_compare.get()) or float(second_compare.get()) < 0 or float(first_compare.get()) < 0
+    or RepresentsInt_2(first_compare.get())== False or RepresentsInt_2(second_compare.get()) == False):
         invalid_index = Label(history, text="Invalid index!",bg='#CCFFE5',fg='black')
         invalid_index.pack()
-        history.after(1000,invalid_index.pack_forget)
+        history.after(2000,invalid_index.pack_forget)
         valid_entry = 1
     if valid_entry == 0:
         index1 = int(first_compare.get())
@@ -1275,14 +1284,19 @@ def set(object,float):
     object.insert(0, float)
 
 def load(history,no_config):
-    if (len(no_config.get())==0 or RepresentsInt(no_config.get())== False):
+    if (len(structs) == 0):
+        hs_clear = Label(history, text="History is clear!",bg='#CCFFE5',fg="black")
+        hs_clear.pack()
+        history.after(2000,hs_clear.destroy)
+        return
+    if (len(no_config.get())==0 or RepresentsInt_2(no_config.get())== False):
         valid_number = Label(history, text="Introduce a valid number!",bg='#CCFFE5',fg="black")
         valid_number.pack()
-        history.after(1000,valid_number.destroy)
-    elif (len(structs) <= int(no_config.get())):
+        history.after(2000,valid_number.destroy)
+    elif (len(structs) <= float(no_config.get()) or float(no_config.get()) < 0):
         valid_number = Label(history, text="Introduce a valid number!",bg='#CCFFE5',fg="black")
         valid_number.pack()
-        history.after(1000,valid_number.destroy)
+        history.after(2000,valid_number.destroy)
     else:
         Voltage_input.set(structs[int(no_config.get())].voltage)
         set(MOI_input,structs[int(no_config.get())].moi)
@@ -1589,20 +1603,25 @@ def animation():
 
     return
 def options():
-    if ((len(N_input.get())==0 or RepresentsInt(N_input.get())== False) or
-            (len(MOI_input.get())==0 or RepresentsInt(MOI_input.get())== False) or
-            (len(armature_resistance_input.get())==0 or RepresentsInt(armature_resistance_input.get())== False) or
-            (len(armature_unductance_input.get())==0 or RepresentsInt(armature_unductance_input.get())== False) or
-            (len(damping_input.get())==0 or RepresentsInt(damping_input.get())== False) or
-            (len(constant_input.get())==0) or RepresentsInt(constant_input.get())== False):
+    if (len(N_input.get())!=0 and int(N_input.get()) > 100):
+        N_seconds = Label(root, text="Motor can be active maximum 100 seconds",bg='#CCFFE5',fg='black')
+        N_seconds.pack()
+        root.after(2000,N_seconds.pack_forget)
+        return
+    if ((len(N_input.get())==0 or RepresentsInt(N_input.get())== False or float(N_input.get()) <= 0) or
+            (len(MOI_input.get())==0 or RepresentsInt(MOI_input.get())== False or float(MOI_input.get()) <= 0) or
+            (len(armature_resistance_input.get())==0 or RepresentsInt(armature_resistance_input.get())== False  or float(armature_resistance_input.get()) <= 0) or
+            (len(armature_unductance_input.get())==0 or RepresentsInt(armature_unductance_input.get())== False or float(armature_unductance_input.get()) <= 0) or
+            (len(damping_input.get())==0 or RepresentsInt(damping_input.get())== False or float(damping_input.get()) <= 0) or
+            (len(constant_input.get())==0) or RepresentsInt(constant_input.get())== False or float(constant_input.get()) <= 0):
         error.pack()
         if (Voltage_input.get() == 0):
             error_voltage.pack()
-            root.after(1000,error_voltage.pack_forget)
-        root.after(1000,error.pack_forget)
+            root.after(2000,error_voltage.pack_forget)
+        root.after(2000,error.pack_forget)
     elif (Voltage_input.get() == 0):
         error_voltage.pack()
-        root.after(1000,error_voltage.pack_forget)
+        root.after(2000,error_voltage.pack_forget)
     else:
         Options = tk.Toplevel(root)
         Options.title('Options')
@@ -1647,7 +1666,7 @@ def options():
         Options.grab_set()
         root.wait_window(Options)
         
-N_input_text = Label(root, text="Enter number of seconds for engine turnover(sec):",bg='#CCFFE5',fg="black")
+N_input_text = Label(root, text="Enter number of seconds to run the engine(sec):",bg='#CCFFE5',fg="black")
 N_input_text.pack()
 
 N_input = Entry(root,width=30,fg="white", bg="#165174",bd=3,insertbackground='white',cursor = "arrow")
